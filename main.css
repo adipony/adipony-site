@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'Pixel Operator', Courier, monospace;
+    src: url('./assets/fonts/PixelOperator8.ttf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Pixel Operator', Courier, monospace;
+    src: url('./assets/fonts/PixelOperator8-Bold.ttf');
+    font-weight: bold;
+}
+
+body {
+    font-family: 'Pixel Operator', Courier, monospace;
+}
