@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Adipony - Post</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="My personal blog website!" />
+
+		<link rel="icon" type="image/x-icon" href="/public/images/favicon/favicon.ico" />
+		<link href="/main.css" rel="stylesheet" />
+	</head>
+	<body class="bg-coffee-200 p-4">
+		<nav
+			aria-labelledby="primary-navigation"
+			class="bg-coffee-100 shadow-retro shadow-coffee-400 mb-5 p-2"
+		>
+			<h2 id="primary-navigation">Primary navigation</h2>
+			<ul role="menubar" class="flex gap-5">
+				<li role="menuitem">
+					<a href="/">Main</a>
+				</li>
+				<li role="menuitem">
+					<a href="/pages/editor/">Editor</a>
+				</li>
+                <li role="menuitem">
+					<a aria-current="page" class="font-bold border-coffee-500" href="pages/editor/">Editor</a>
+				</li>
+			</ul>
+		</nav>
+		<main id="post" class="bg-coffee-100 shadow-retro shadow-coffee-400 mb-5 p-2">
+			<template id="blogPostTemplate">
+				<article class="blogPost flex flex-col gap-2">
+					<header>
+						<h1 id="title" class="text-3xl"></h1>
+					</header>
+					<hr />
+					<div id="content"></div>
+					<footer>
+						<address>Written by <a id="author" href="#"></a></address>
+						- <time id="createdTime"></time>
+					</footer>
+				</article>
+			</template>
+			<p id="loading">loading...</p>
+		</main>
+
+		<script defer type="module">
+			async function init() {
+				console.log();
+
+				const searchParams = new URLSearchParams(window.location.search);
+
+				const postIdParam = Number(searchParams.get('id'));
+
+				const data = await fetch('../../public/data/posts.json');
+				/**
+				 * @type {Post[]}
+				 */
+				const posts = await data.json();
+
+				const postContainer = document.getElementById('post');
+
+				if (!postContainer) {
+					throw new Error('no element');
+				}
+				const template = document.getElementById('blogPostTemplate');
+
+				const clone = template.cloneNode(true);
+
+				console.log({ posts });
+				const post = posts.find((p) => p.timeCreated === postIdParam);
+
+				if (!post) {
+					postContainer.innerHTML = `Can't find post with id: ${postIdParam}`;
+					return;
+				}
+				console.log({ post });
+				/**
+				 * @type {HTMLTemplateElement | null}
+				 */
+				const postTemplateClone = template.content.cloneNode(true);
+				if (!postTemplateClone) return;
+				/**
+				 * @type {HTMLTimeElement | null}
+				 */
+				const time = postTemplateClone.querySelector('#createdTime');
+				if (!time) return;
+
+				const createdDate = new Date(post.timeCreated);
+				time.innerHTML = createdDate.toDateString();
+				time.dateTime = createdDate.toISOString();
+
+				/**
+				 * @type {HTMLAnchorElement | null}
+				 */
+				const author = postTemplateClone.querySelector('#author');
+				if (!author) return;
+
+				author.innerHTML = post.author.name;
+				author.href = post.author.href;
+				const contentElement = postTemplateClone.querySelector('#content');
+				if (!contentElement) return;
+
+				contentElement.innerHTML = post.body;
+
+				const titleElement = postTemplateClone.querySelector('#title');
+				if (!titleElement) return;
+
+				titleElement.innerHTML = post.title;
+
+				postContainer.appendChild(postTemplateClone);
+				console.log({ data });
+
+				document.title = `Adipony - "${post.title}"`;
+                document.querySelector('a[aria-current=page]').textContent = post.title
+				document.getElementById('loading')?.remove();
+			}
+			init();
+		</script>
+	</body>
+</html>
