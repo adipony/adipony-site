@@ -51,7 +51,7 @@ async function getPosts() {
 			if (!titleLink) return;
 
 			// titleLink.innerHTML = post.title;
-			titleLink.href = `/pages/posts/?id=${post.timeCreated}`;
+			titleLink.href = `./pages/posts/?id=${post.timeCreated}`;
 
 			/**
 			 * @type {HTMLAnchorElement | null}
