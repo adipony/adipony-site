@@ -554,20 +554,65 @@ video {
   display: none;
 }
 
+.visible {
+  visibility: visible;
+}
+
+.collapse {
+  visibility: collapse;
+}
+
+.relative {
+  position: relative;
+}
+
 .mb-5 {
   margin-bottom: 1.25rem;
+}
+
+.block {
+  display: block;
 }
 
 .flex {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
 .contents {
   display: contents;
 }
 
+.hidden {
+  display: none;
+}
+
+.border-collapse {
+  border-collapse: collapse;
+}
+
 .origin-center {
   transform-origin: center;
+}
+
+.rotate-12 {
+  --tw-rotate: 12deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.resize {
+  resize: both;
+}
+
+.flex-col {
+  flex-direction: column;
 }
 
 .items-center {
@@ -586,6 +631,10 @@ video {
   gap: 1.25rem;
 }
 
+.border {
+  border-width: 1px;
+}
+
 .bg-coffee-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(236 224 209 / var(--tw-bg-opacity, 1));
@@ -594,6 +643,21 @@ video {
 .bg-coffee-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(219 193 172 / var(--tw-bg-opacity, 1));
+}
+
+.bg-coffee-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(150 114 89 / var(--tw-bg-opacity, 1));
+}
+
+.bg-coffee-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 72 50 / var(--tw-bg-opacity, 1));
+}
+
+.bg-coffee-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(56 34 15 / var(--tw-bg-opacity, 1));
 }
 
 .p-2 {
@@ -608,6 +672,15 @@ video {
   padding: 1.25rem;
 }
 
+.pb-5 {
+  padding-bottom: 1.25rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -615,6 +688,10 @@ video {
 .text-coffee-500 {
   --tw-text-opacity: 1;
   color: rgb(56 34 15 / var(--tw-text-opacity, 1));
+}
+
+.underline {
+  text-decoration-line: underline;
 }
 
 .shadow-retro {
@@ -626,6 +703,10 @@ video {
 .shadow-coffee-400 {
   --tw-shadow-color: #634832;
   --tw-shadow: var(--tw-shadow-colored);
+}
+
+.outline {
+  outline-style: solid;
 }
 
 .hover\:underline:hover {
