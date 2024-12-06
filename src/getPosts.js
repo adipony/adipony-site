@@ -8,7 +8,7 @@
  */
 
 async function getPosts() {
-	const postsRes = await fetch('/public/data/posts.json', { method: 'GET' });
+	const postsRes = await fetch('./public/data/posts.json', { method: 'GET' });
 
 	/**
 	 * @type {Post[]}
