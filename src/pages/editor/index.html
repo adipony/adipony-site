@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Adipony - Post editor</title>
+		<link href="/main.css" rel="stylesheet" />
+	</head>
+	<body class="bg-coffee-200 text-coffee-500 p-4 flex flex-col w-screen min-h-screen">
+		<nav
+			aria-labelledby="primary-navigation"
+			class="bg-coffee-100 shadow-retro shadow-coffee-400 mb-5 p-2"
+		>
+			<h2 id="primary-navigation">Primary navigation</h2>
+			<ul role="menubar" class="flex gap-5">
+				<li role="menuitem">
+					<a href="/">Main</a>
+				</li>
+				<li role="menuitem">
+					<a aria-current="page" class="font-bold border-coffee-500" href="pages/editor/">Editor</a>
+				</li>
+			</ul>
+		</nav>
+		<header class="bg-coffee-100 shadow-retro shadow-coffee-400 mb-5 p-4 w-max">
+			<h1 class="text-3xl">Post editor</h1>
+			<p>This is the editor I built to easily write my blog posts.</p>
+		</header>
+		<div class="flex gap-5 max-h-full items-start">
+			<main class="bg-coffee-100 shadow-retro shadow-coffee-400 mb-5 p-2 gap-2 flex h-max">
+				<form class="flex flex-col" id="post_form" oninput="onInput()">
+					<fieldset class="border-2 p-2 flex flex-col gap-1" name="author">
+						<legend class="">Author information</legend>
+						<label for="title">Name </label>
+						<input required name="author.name" type="text" />
+
+						<label for="title">Website/href </label>
+						<input required name="author.href" type="url" />
+					</fieldset>
+
+					<label for="title">Title</label>
+					<input required name="title" type="text" />
+
+					<label for="tags">Tags</label>
+					<select id="post_tags" multiple required name="tags"></select>
+
+					<label for="body">Body</label>
+					<textarea required name="body" rows="5" cols="33">text</textarea>
+
+					<button type="submit">submit</button>
+				</form>
+			</main>
+			<aside
+				class="bg-coffee-100 shadow-retro shadow-coffee-400 mb-5 p-2 gap-2 flex flex-col overflow-auto h-min"
+			>
+				<p class="font-bold underline">Preview:</p>
+				<output id="preview" for="post_form"> </output>
+			</aside>
+		</div>
+		<script src="./consts.js" defer type="module"></script>
+		<script type="module">
+			import { POST_TAGS } from './consts.js';
+
+			const tags = document.getElementById('post_tags');
+			console.log({ tags });
+			if (tags.children.length === 0) {
+				POST_TAGS.forEach((tag) => {
+					let opt = document.createElement('option');
+					opt.name = tag;
+					opt.value = tag;
+					opt.id = 'post_tags_' + tag;
+					opt.innerHTML = tag;
+					console.log(opt);
+
+					tags.appendChild(opt);
+				});
+			}
+		</script>
+		<script>
+			const form = document.getElementById('post_form');
+
+			form.oninput = (e) => {
+				const data = new FormData(e.target.form);
+				console.log({ data });
+
+				const preview = document.getElementById('preview');
+
+				jsondata = {
+					author: {
+						name: data.get('author.name'),
+						href: data.get('author.href'),
+					},
+					title: data.get('title'),
+					tags: data.getAll('tags'),
+					body: data.get('body'),
+					timeCreated: Date.now(),
+				};
+
+				preview.innerHTML = jsondata.body;
+			};
+			form.onsubmit = (e) => {
+				e.preventDefault();
+				// Copy the text inside the text field
+				navigator.clipboard.writeText(JSON.stringify(jsondata));
+
+				// Alert the copied text
+				alert('JSON saved to clipboard: \n\n' + JSON.stringify(jsondata));
+			};
+		</script>
+	</body>
+</html>

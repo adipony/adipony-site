@@ -8,23 +8,21 @@
 		<link rel="icon" type="image/x-icon" href="/public/images/favicon/favicon.ico" />
 		<link href="/main.css" rel="stylesheet" />
 	</head>
-	<style>
-		a {
-			text-decoration: underline;
-		}
-	</style>
 	<body class="bg-coffee-200 p-4">
 		<nav
 			aria-labelledby="primary-navigation"
 			class="bg-coffee-100 shadow-retro shadow-coffee-400 mb-5 p-2"
 		>
 			<h2 id="primary-navigation">Primary navigation</h2>
-			<ul role="menubar" class="flex gap-1">
+			<ul role="menubar" class="flex gap-5">
 				<li role="menuitem">
 					<a href="/">Main</a>
 				</li>
 				<li role="menuitem">
 					<a href="/pages/editor/">Editor</a>
+				</li>
+                <li role="menuitem">
+					<a aria-current="page" class="font-bold border-coffee-500" href="pages/editor/">Editor</a>
 				</li>
 			</ul>
 		</nav>
@@ -113,6 +111,7 @@
 				console.log({ data });
 
 				document.title = `Adipony - "${post.title}"`;
+                document.querySelector('a[aria-current=page]').textContent = post.title
 				document.getElementById('loading')?.remove();
 			}
 			init();
