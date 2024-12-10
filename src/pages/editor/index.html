@@ -28,10 +28,10 @@
 				<form class="flex flex-col" id="post_form" oninput="onInput()">
 					<fieldset class="border-2 p-2 flex flex-col gap-1" name="author">
 						<legend class="">Author information</legend>
-						<label for="title">Name </label>
+						<label for="author.name">Name </label>
 						<input required name="author.name" type="text" />
 
-						<label for="title">Website/href </label>
+						<label for="author.href">Website/href </label>
 						<input required name="author.href" type="url" />
 					</fieldset>
 
@@ -68,15 +68,40 @@
 					opt.id = 'post_tags_' + tag;
 					opt.innerHTML = tag;
 					console.log(opt);
-
+					
 					tags.appendChild(opt);
 				});
+			}
+			
+			// if has data from previous session
+			const previousSessionData = localStorage.getItem('data');
+			if (previousSessionData) {
+				
+				const data = JSON.parse(previousSessionData);
+				console.log('previous session data', data);
+				console.log(document.querySelector('input[name="author.name"]'))
+				document.querySelector("input[name='author.name']").value = data.author.name;
+				document.querySelector("input[name='author.href']").value = data.author.href;
+				document.querySelector("input[name='title']").value = data.title;
+				document.querySelector("textarea[name='body']").value = data.body;
+				document.querySelector("select[name='tags']").value = data.tags.toString();
+				const preview = document.getElementById('preview');
+				preview.innerHTML = data.body;
 			}
 		</script>
 		<script>
 			const form = document.getElementById('post_form');
+			let jsondata;
 
-			form.oninput = (e) => {
+			function debounce(func, timeout) {
+				let timer;
+				return (...args) => {
+					clearTimeout(timer);
+					timer = setTimeout(() => { func.apply(this, args); }, timeout);
+				};
+			}
+
+			form.oninput = debounce((e) => {
 				const data = new FormData(e.target.form);
 				console.log({ data });
 
@@ -93,10 +118,15 @@
 					timeCreated: Date.now(),
 				};
 
+				localStorage.setItem('data', JSON.stringify(jsondata));
+
 				preview.innerHTML = jsondata.body;
-			};
+				console.log('update')
+			}, 200);
+
 			form.onsubmit = (e) => {
 				e.preventDefault();
+				
 				// Copy the text inside the text field
 				navigator.clipboard.writeText(JSON.stringify(jsondata));
 
